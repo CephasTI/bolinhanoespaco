@@ -1,0 +1,92 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    pincel.fillStyle = 'white';
+    pincel.fillRect(0,0,600,400);
+    pincel.fillStroke;
+    pincel.strokeRect(0,0,600,400);
+
+    function desenhaTexto(texto, x , y) {
+
+        pincel.font = "20px arial";//20px é o tamanho da letra
+        pincel.fillStyle = "black";
+        pincel.fillText(texto, x, y);//o texto que vai aparecer na tela é escrito aqui
+    }
+
+    function desenhaCirculo(xCirculo, yCirculo, raio,cor) {
+
+        pincel.fillStyle = cor;
+        pincel.beginPath();
+        pincel.arc(xCirculo, yCirculo, raio, 0, 2 * Math.PI);
+        pincel.fill();
+    }
+
+    var xCirculo = 40;
+    var yCirculo = 60;
+    var raio = 30;
+    var cores = ["blue","red","yellow","orange","green","black","pink","purple"];
+    var indiceCores = 0;
+
+    function anima(){
+
+        pincel.clearRect(0,0,600,400);
+        desenhaCirculo(xCirculo,yCirculo,30,cores[indiceCores]);
+        if(xCirculo<560&&yCirculo==60){
+
+            xCirculo++;
+        
+        }
+
+        if(yCirculo<=340&&xCirculo==560) {
+            
+            yCirculo++;
+        
+        }
+
+        if(xCirculo>=40&&yCirculo==340){
+
+            xCirculo--;
+        
+        }
+
+        if(yCirculo>=60&&xCirculo==40){
+
+            yCirculo--;
+        
+        }
+
+        desenhaTexto("Uma bolinha no espaço.", 183, 20);
+        desenhaTexto("Clique nela.", 240,200)
+        pincel.fillStroke;
+        pincel.strokeRect(0,0,600,400);     
+    }
+
+    function mudaCor(evento) {
+
+        var x = evento.pageX - tela.offsetLeft;
+        var y = evento.pageY - tela.offsetTop;
+
+        if ((x > xCirculo - raio)&&
+                (x < xCirculo + raio)&&
+                    (y > yCirculo - raio)&&
+                        (y < yCirculo + raio)) {
+
+            indiceCores++;
+
+            if (indiceCores == cores.length) {
+
+                indiceCores = 0;
+
+            } 
+
+        }
+                
+    }
+
+    tela.onclick = mudaCor;
+    setInterval(anima,1);
+    
+</script>
